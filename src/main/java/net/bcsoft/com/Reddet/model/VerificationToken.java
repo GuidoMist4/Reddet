@@ -20,7 +20,7 @@ public class VerificationToken implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idVerificationToken;
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String token;
     private Instant expirationDate;
 }
