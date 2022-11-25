@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,6 +24,13 @@ public class SubReddet implements Serializable {
     @NotBlank
     private String description;
     private Instant creationDate;
+
+    @OneToMany(mappedBy="subReddet")
+    private List<Post> posts=new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name="utente_fk", referencedColumnName = "id")
+    private Utente utente;
 }
 
 

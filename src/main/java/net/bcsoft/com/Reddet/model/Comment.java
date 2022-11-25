@@ -3,10 +3,8 @@ package net.bcsoft.com.Reddet.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.Instant;
@@ -24,4 +22,12 @@ public class Comment implements Serializable {
     @NotBlank
     private String text;
     private Instant creationDate;
+
+    @ManyToOne
+    @JoinColumn(name="utente_fk", referencedColumnName = "id")
+    private Utente utente;
+
+    @ManyToOne
+    @JoinColumn(name="post_fk", referencedColumnName = "postId")
+    private Post post;
 }

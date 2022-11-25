@@ -7,7 +7,7 @@ public enum TipoVoto {
 
         private int direction;
 
-        private TipoVoto (int direction) {
+        TipoVoto (int direction) {
             this.direction = direction;
         }
 

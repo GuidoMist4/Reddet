@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,4 +27,18 @@ public class Post implements Serializable {
     private String description;
     private int voteCounter;
     private Instant creationDate;
+
+    @ManyToOne
+    @JoinColumn(name="utente_fk", referencedColumnName = "id")
+    private Utente utente;
+
+    @ManyToOne
+    @JoinColumn(name="subReddet_fk", referencedColumnName = "subId")
+    private SubReddet subReddet;
+
+    @OneToMany(mappedBy="post")
+    private List<Vote> votes=new ArrayList<>();
+
+    @OneToMany(mappedBy="post")
+    private List<Comment> comments=new ArrayList<>();
 }
