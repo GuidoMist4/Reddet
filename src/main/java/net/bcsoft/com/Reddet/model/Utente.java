@@ -39,7 +39,7 @@ public class Utente {
 
     @OneToOne
     @JoinColumn(name="token_fk", referencedColumnName = "idVerificationToken")
-    private VerificationToken token;
+    private VerificationToken verificationToken;
 
     @OneToMany(mappedBy="utente")
     private List<Vote> votes= new ArrayList<>();
