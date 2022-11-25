@@ -7,7 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface VerificationTokenRepository  extends CrudRepository<VerificationToken, Long> {
-
-    public Optional<VerificationToken> findByIdVerificationToken( long idVerificationToken);
 }
 

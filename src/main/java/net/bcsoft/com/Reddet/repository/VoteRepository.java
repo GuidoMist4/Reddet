@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
     public interface  VoteRepository  extends CrudRepository<Vote, Long> {
-        public Optional<Vote> findByIdVote(long idVote);
+    
     }
 
