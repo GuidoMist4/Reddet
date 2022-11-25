@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -23,4 +20,7 @@ public class VerificationToken implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String token;
     private Instant expirationDate;
+
+    @OneToOne(mappedBy="verificationToken")
+    private Utente utente;
 }
