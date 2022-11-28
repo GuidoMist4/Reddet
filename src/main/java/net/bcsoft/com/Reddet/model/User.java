@@ -29,20 +29,20 @@ public class User {
     private Instant created;
     private boolean enabled;
 
-    @OneToMany(mappedBy="utente")
+    @OneToMany(mappedBy="user")
     private List<Comment> comments= new ArrayList<>();
 
-    @OneToMany(mappedBy="utente")
+    @OneToMany(mappedBy="user")
     private List<Post> posts= new ArrayList<>();
 
-    @OneToMany(mappedBy="utente")
+    @OneToMany(mappedBy="user")
     private List<SubReddet> subReddet= new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name="token_fk", referencedColumnName = "idVerificationToken")
     private VerificationToken verificationToken;
 
-    @OneToMany(mappedBy="utente")
+    @OneToMany(mappedBy="user")
     private List<Vote> votes= new ArrayList<>();
 
 
