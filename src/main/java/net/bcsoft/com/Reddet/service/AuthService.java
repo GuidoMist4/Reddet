@@ -21,7 +21,6 @@ public class AuthService {
 
     @Transactional
     public void SignUp(RegisterRequest registerRequest){
-
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
@@ -29,7 +28,6 @@ public class AuthService {
         user.setCreated(Instant.now());
         user.setEnabled(false);
         userRepo.save(user);
-
     }
 
     @Autowired
@@ -41,8 +39,5 @@ public class AuthService {
         verificationToken.setToken(token);
         return token;
     }
-
-
-
 
 }
