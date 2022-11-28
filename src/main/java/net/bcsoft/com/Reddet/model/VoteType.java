@@ -1,13 +1,13 @@
 package net.bcsoft.com.Reddet.model;
 
 
-public enum TipoVoto {
+public enum VoteType {
         UP_VOTE(1),
         DOWN_VOTE(-1);
 
         private int direction;
 
-        TipoVoto (int direction) {
+        VoteType(int direction) {
             this.direction = direction;
         }
 

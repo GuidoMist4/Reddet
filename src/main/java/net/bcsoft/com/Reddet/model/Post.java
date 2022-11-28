@@ -30,7 +30,7 @@ public class Post implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="utente_fk", referencedColumnName = "id")
-    private Utente utente;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name="subReddet_fk", referencedColumnName = "subId")

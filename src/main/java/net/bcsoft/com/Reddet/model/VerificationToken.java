@@ -22,5 +22,5 @@ public class VerificationToken implements Serializable {
     private Instant expirationDate;
 
     @OneToOne(mappedBy="verificationToken")
-    private Utente utente;
+    private User user;
 }

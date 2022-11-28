@@ -5,11 +5,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableWebSecurity
-public class securityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().authorizeRequests().antMatchers("/Api/Auth/**").permitAll().anyRequest().authenticated();
+        httpSecurity.csrf()
+                .disable()
+                .authorizeRequests()
+                .antMatchers("/Api/Auth/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
     }
 
 

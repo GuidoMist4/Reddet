@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +23,5 @@ public class Vote implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="utente_fk", referencedColumnName = "id")
-    private Utente utente;
+    private User user;
 }
