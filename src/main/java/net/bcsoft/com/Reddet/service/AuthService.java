@@ -2,7 +2,7 @@ package net.bcsoft.com.Reddet.service;
 
 import net.bcsoft.com.Reddet.DTO.RegisterRequest;
 import net.bcsoft.com.Reddet.model.User;
-import net.bcsoft.com.Reddet.repository.UtenteRepo;
+import net.bcsoft.com.Reddet.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,7 +15,7 @@ public class AuthService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    UtenteRepo utenteRepo;
+    UserRepo userRepo;
 
     @Transactional
     public void SignUp(RegisterRequest registerRequest){
@@ -26,7 +26,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
         user.setEnabled(false);
-        utenteRepo.save(user);
+        userRepo.save(user);
 
     }
 
