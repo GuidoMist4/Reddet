@@ -15,6 +15,8 @@ public class AuthService {
         user.setPassword(registerRequest.getPassword());
 
         user.setCreated(Instant.now());
+
+        user.setEnabled(false);
     }
 
 
