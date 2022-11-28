@@ -5,7 +5,6 @@ import net.bcsoft.com.Reddet.model.User;
 import net.bcsoft.com.Reddet.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import javax.transaction.Transactional;
 import java.time.Instant;
 
