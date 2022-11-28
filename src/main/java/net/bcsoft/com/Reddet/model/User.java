@@ -27,6 +27,7 @@ public class User {
     @Email
     private String email;
     private Instant created;
+    private boolean enabled;
 
     @OneToMany(mappedBy="utente")
     private List<Comment> comments= new ArrayList<>();
