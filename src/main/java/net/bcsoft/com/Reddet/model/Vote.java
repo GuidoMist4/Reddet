@@ -21,6 +21,6 @@ public class Vote implements Serializable {
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name="utente_fk", referencedColumnName = "id")
+    @JoinColumn(name="user_fk", referencedColumnName = "id")
     private User user;
 }

@@ -29,7 +29,7 @@ public class SubReddet implements Serializable {
     private List<Post> posts=new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="utente_fk", referencedColumnName = "id")
+    @JoinColumn(name="user_fk", referencedColumnName = "id")
     private User user;
 }
 
