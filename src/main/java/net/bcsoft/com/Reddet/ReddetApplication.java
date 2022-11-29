@@ -9,5 +9,4 @@ public class ReddetApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ReddetApplication.class, args);
 	}
-
 }
