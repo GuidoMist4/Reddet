@@ -39,5 +39,4 @@ public class AuthService {
         verificationToken.setToken(token);
         return token;
     }
-
 }
