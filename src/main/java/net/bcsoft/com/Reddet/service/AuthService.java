@@ -7,10 +7,13 @@ import net.bcsoft.com.Reddet.repository.UserRepo;
 import net.bcsoft.com.Reddet.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.UUID;
 
+@Service
 public class AuthService {
 
     @Autowired
