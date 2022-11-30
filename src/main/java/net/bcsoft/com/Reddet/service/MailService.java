@@ -18,10 +18,10 @@ public class MailService {
 
     private final MailContentBuilder mailContentBuilder;
 
-    void SendMail(NotificationEmail notificationEmail){
+    void sendMail(NotificationEmail notificationEmail){
         MimeMessagePreparator mimeMessagePreparator = mimeMessage -> {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-            mimeMessageHelper.setFrom("rocco.bocchini@gmail.com");
+            mimeMessageHelper.setFrom("peggiori@gmail.com");
             mimeMessageHelper.setTo(notificationEmail.getRecipiente());
             mimeMessageHelper.setSubject(notificationEmail.getSoggetto());
             mimeMessageHelper.setText(notificationEmail.getCorpo());
@@ -30,7 +30,7 @@ public class MailService {
             log.info("The email has been sent.");
         } catch(MailException mailException){
             log.error("ERROR: The email has not been sent correctly.", mailException);
-            throw new FailedMailException ("ERROR: The email has not been sent correctly." + notificationEmail.getRecipiente(), mailException);
+            throw new FailedMailException("ERROR: The email has not been sent correctly." + notificationEmail.getRecipiente(), mailException);
         }
     }
 

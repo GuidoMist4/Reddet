@@ -20,6 +20,7 @@ public class VerificationToken implements Serializable {
     private String token;
     private Instant expirationDate;
 
-    @OneToOne(mappedBy="verificationToken")
+    @OneToOne
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 }
