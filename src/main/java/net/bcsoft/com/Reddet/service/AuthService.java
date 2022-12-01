@@ -1,5 +1,6 @@
 package net.bcsoft.com.Reddet.service;
 
+import net.bcsoft.com.Reddet.DTO.LoginRequest;
 import net.bcsoft.com.Reddet.DTO.RegisterRequest;
 import net.bcsoft.com.Reddet.exception.ExceptionHandler;
 import net.bcsoft.com.Reddet.model.NotificationEmail;
@@ -8,6 +9,8 @@ import net.bcsoft.com.Reddet.model.VerificationToken;
 import net.bcsoft.com.Reddet.repository.UserRepo;
 import net.bcsoft.com.Reddet.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,20 @@ public class AuthService {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    VerificationTokenRepository verificationTokenRepository;
+    private String generateVerificationToken(User user){
+        String token= UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setUser(user);
+        verificationToken.setToken(token);
+        verificationTokenRepository.save(verificationToken);
+        return token;
+    }
+
     @Transactional
     public void signUp(RegisterRequest registerRequest){
         User user = new User();
@@ -40,17 +57,6 @@ public class AuthService {
         String token = generateVerificationToken(user);
         mailService.sendMail(new NotificationEmail("Attiva account", user.getEmail(),"Text email"+ "Corpo email"+
                 "\n" + "To activate your account click on the link below : " + " \n" + "http://localhost:8080/Api/Auth/verification/"+ token ));
-    }
-
-    @Autowired
-    VerificationTokenRepository verificationTokenRepository;
-    private String generateVerificationToken(User user){
-        String token= UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setUser(user);
-        verificationToken.setToken(token);
-        verificationTokenRepository.save(verificationToken);
-        return token;
     }
 
     @Transactional
@@ -68,6 +74,11 @@ public class AuthService {
             new ExceptionHandler("ERROR: Username not found."));
         user.setEnabled(true);
         userRepo.save(user);
+    }
+
+    @Transactional
+    public void login(LoginRequest loginRequest){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
     }
 
 }
