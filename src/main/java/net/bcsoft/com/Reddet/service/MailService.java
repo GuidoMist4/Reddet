@@ -2,7 +2,7 @@ package net.bcsoft.com.Reddet.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bcsoft.com.Reddet.controller.exception.FailedMailException;
+import net.bcsoft.com.Reddet.exception.FailedMailException;
 import net.bcsoft.com.Reddet.model.NotificationEmail;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;

@@ -24,6 +24,7 @@ public class User {
     @NotBlank
     private String password;
     @Email
+    @NotBlank
     private String email;
     private Instant created;
     private boolean enabled;
