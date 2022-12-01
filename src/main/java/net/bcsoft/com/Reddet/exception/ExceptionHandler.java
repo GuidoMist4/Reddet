@@ -1,4 +1,4 @@
-package net.bcsoft.com.Reddet.controller.exception;
+package net.bcsoft.com.Reddet.exception;
 
 import java.lang.RuntimeException;
 

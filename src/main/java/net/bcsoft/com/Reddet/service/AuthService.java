@@ -1,19 +1,16 @@
 package net.bcsoft.com.Reddet.service;
 
 import net.bcsoft.com.Reddet.DTO.RegisterRequest;
-import net.bcsoft.com.Reddet.controller.exception.ExceptionHandler;
+import net.bcsoft.com.Reddet.exception.ExceptionHandler;
 import net.bcsoft.com.Reddet.model.NotificationEmail;
 import net.bcsoft.com.Reddet.model.User;
 import net.bcsoft.com.Reddet.model.VerificationToken;
 import net.bcsoft.com.Reddet.repository.UserRepo;
 import net.bcsoft.com.Reddet.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.lang.RuntimeException;
+
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;
@@ -67,8 +64,7 @@ public class AuthService {
     @Transactional
     public void findUserAndAbilitate(VerificationToken verificationToken){
         String username = verificationToken.getUser().getUsername();
-        User user = new User();
-        userRepo.findUserByUsername(username).orElseThrow(() ->
+        User user = userRepo.findUserByUsername(username).orElseThrow(() ->
             new ExceptionHandler("ERROR: Username not found."));
         user.setEnabled(true);
         userRepo.save(user);
