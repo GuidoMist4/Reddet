@@ -1,6 +1,7 @@
 package net.bcsoft.com.Reddet.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -10,12 +11,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubReddet implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long subId;
@@ -24,10 +25,8 @@ public class SubReddet implements Serializable {
     @NotBlank
     private String description;
     private Instant creationDate;
-
     @OneToMany(mappedBy="subReddet")
     private List<Post> posts=new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name="user_fk", referencedColumnName = "id")
     private User user;

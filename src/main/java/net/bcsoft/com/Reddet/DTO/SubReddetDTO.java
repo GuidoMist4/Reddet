@@ -1,6 +1,5 @@
 package net.bcsoft.com.Reddet.DTO;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class LoginRequest {
-    private String username;
-    private String password;
+public class SubReddetDTO {
+    private long subId;
+    private String name;
+    private String description;
+    private Integer postNumber;
 }

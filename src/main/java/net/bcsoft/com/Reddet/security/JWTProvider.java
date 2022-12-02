@@ -1,6 +1,7 @@
 package net.bcsoft.com.Reddet.security;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 
 @Service
-@AllArgsConstructor
-public class JwtProvider {
+@RequiredArgsConstructor
+public class JWTProvider {
 
     private JwtEncoder jwtEncoder;
 
