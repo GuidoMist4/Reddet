@@ -14,30 +14,30 @@ import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
-public class JwtProvider {
+public class JWTProvider {
 
     private  JwtEncoder jwtEncoder;
 
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationInMillis;
 
-    public String generateToken(Authentication authentication){
-       User user=(User) authentication.getPrincipal();
-       return generateTokenWithUsername(user.getUsername());
+    public String generateToken(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return generateTokenWithUsername(user.getUsername());
     }
 
-    public String generateTokenWithUsername(String username){
-        JwtClaimsSet jwtClaimsSet= JwtClaimsSet.builder()
+    public String generateTokenWithUsername(String username) {
+        JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuer("Self.")
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusMillis(jwtExpirationInMillis))
                 .subject(username)
-                .claim("scope","ROLE_USER")
+                .claim("scope", "ROLE_USER")
                 .build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
     }
 
-    public Long getJwtExpirationInMillis(){
+    public Long getJwtExpirationInMillis() {
         return jwtExpirationInMillis;
     }
 }
