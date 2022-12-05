@@ -2,7 +2,6 @@ package net.bcsoft.com.Reddet.controller;
 
 import lombok.AllArgsConstructor;
 import net.bcsoft.com.Reddet.DTO.SubReddetDTO;
-import net.bcsoft.com.Reddet.mapper.SubReddetMapper;
 import net.bcsoft.com.Reddet.service.SubReddetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
