@@ -24,7 +24,7 @@ public class SubReddetService {
 
 
     @Transactional
-    public SubReddetDTO saveSubReddet(SubReddetDTO subReddetDTO) {
+    public SubReddetDTO saveSubReddet(SubReddetDTO subReddetDTO)  {
         SubReddet subReddet = subReddetMapper.mapDTOToSubReddet(subReddetDTO);
         subReddetRepo.save(subReddet);
         subReddetDTO.setSubId(subReddet.getSubId());
