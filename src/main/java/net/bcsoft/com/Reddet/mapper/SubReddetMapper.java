@@ -6,6 +6,7 @@ import net.bcsoft.com.Reddet.model.SubReddet;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
 import java.util.List;
 
 @Mapper (componentModel = "spring")
@@ -18,7 +19,8 @@ public interface SubReddetMapper {
         return postNumber.size();
     }
 
-    @Mapping(target = "posts", ignore = true)
+
     @InheritInverseConfiguration
+    @Mapping(target = "posts", ignore = true)
     SubReddet mapDTOToSubReddet(SubReddetDTO subReddetDTO);
 }

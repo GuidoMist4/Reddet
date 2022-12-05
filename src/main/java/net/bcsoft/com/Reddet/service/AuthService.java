@@ -36,8 +36,9 @@ public class AuthService {
 
     @Autowired
     VerificationTokenRepository verificationTokenRepository;
-    private String generateVerificationToken(User user){
-        String token= UUID.randomUUID().toString();
+
+    private String generateVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setUser(user);
         verificationToken.setToken(token);
@@ -46,7 +47,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void signUp(RegisterRequest registerRequest){
+    public void signUp(RegisterRequest registerRequest) {
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
@@ -55,29 +56,29 @@ public class AuthService {
         user.setEnabled(false);
         userRepo.save(user);
         String token = generateVerificationToken(user);
-        mailService.sendMail(new NotificationEmail("Attiva account", user.getEmail(),"Text email"+ "Corpo email"+
-                "\n" + "To activate your account click on the link below : " + " \n" + "http://localhost:8080/Api/Auth/verification/"+ token ));
+        mailService.sendMail(new NotificationEmail("Attiva account", user.getEmail(), "Text email" + "Corpo email" +
+                "\n" + "To activate your account click on the link below : " + " \n" + "http://localhost:8080/Api/Auth/verification/" + token));
     }
 
     @Transactional
-    public void accountVerification(String token){
+    public void accountVerification(String token) {
         Optional<VerificationToken> optionalToken = verificationTokenRepository.findByToken(token);
         optionalToken.orElseThrow(() ->
-        new ExceptionHandler("ERROR: Invalid Token."));
+                new ExceptionHandler("ERROR: Invalid Token."));
         findUserAndAbilitate(optionalToken.get());
     }
 
     @Transactional
-    public void findUserAndAbilitate(VerificationToken verificationToken){
+    public void findUserAndAbilitate(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
         User user = userRepo.findUserByUsername(username).orElseThrow(() ->
-            new ExceptionHandler("ERROR: Username not found."));
+                new ExceptionHandler("ERROR: Username not found."));
         user.setEnabled(true);
         userRepo.save(user);
     }
 
     @Transactional
-    public void login(LoginRequest loginRequest){
+    public void login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
     }
 

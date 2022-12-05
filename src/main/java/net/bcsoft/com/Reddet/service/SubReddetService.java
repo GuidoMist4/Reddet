@@ -1,21 +1,38 @@
 package net.bcsoft.com.Reddet.service;
 
+
+import lombok.AllArgsConstructor;
 import net.bcsoft.com.Reddet.DTO.SubReddetDTO;
+import net.bcsoft.com.Reddet.mapper.SubReddetMapper;
 import net.bcsoft.com.Reddet.model.SubReddet;
 import net.bcsoft.com.Reddet.repository.SubReddetRepo;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Mapper
+@AllArgsConstructor
 public class SubReddetService {
 
-    private SubReddetRepo subReddetRepo;
+    private final SubReddetRepo subReddetRepo;
 
-    @Mapping(target = "subreddet")
-    public SubReddetDTO saveSubReddet(SubReddetDTO subReddetDTO){
+    private final SubReddetMapper subReddetMapper;
+
+
+    @Transactional
+    public SubReddetDTO saveSubReddet(SubReddetDTO subReddetDTO) {
+        SubReddet subReddet = subReddetMapper.mapDTOToSubReddet(subReddetDTO);
+        subReddetRepo.save(subReddet);
+        subReddetDTO.setSubId(subReddet.getSubId());
         return subReddetDTO;
     }
+
+    @Transactional
+    public List<SubReddetDTO> getAllSubReddet() {
+        List<SubReddetDTO> subReddetList = subReddetRepo.findAll().stream().map(subReddetMapper::mapSubReddetToDTO).collect(Collectors.toList());
+        return subReddetList;
+    }
+
 }
