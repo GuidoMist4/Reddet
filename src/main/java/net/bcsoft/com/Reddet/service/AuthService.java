@@ -1,5 +1,6 @@
 package net.bcsoft.com.Reddet.service;
 
+import com.nimbusds.jwt.JWT;
 import net.bcsoft.com.Reddet.DTO.LoginRequest;
 import net.bcsoft.com.Reddet.DTO.RegisterRequest;
 import net.bcsoft.com.Reddet.exception.ExceptionHandler;
@@ -8,10 +9,14 @@ import net.bcsoft.com.Reddet.model.User;
 import net.bcsoft.com.Reddet.model.VerificationToken;
 import net.bcsoft.com.Reddet.repository.UserRepo;
 import net.bcsoft.com.Reddet.repository.VerificationTokenRepository;
+import net.bcsoft.com.Reddet.security.JWTProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.Instant;
@@ -43,6 +48,13 @@ public class AuthService {
         verificationToken.setToken(token);
         verificationTokenRepository.save(verificationToken);
         return token;
+    }
+    @Transactional
+    public User getCurrentUser() {
+        Jwt principal = (Jwt) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        return userRepo.findUserByUsername(principal.getSubject())
+                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getSubject()));
     }
 
     @Transactional
