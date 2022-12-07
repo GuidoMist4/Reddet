@@ -1,12 +1,9 @@
 package net.bcsoft.com.Reddet.mapper;
 
-import com.github.marlonlom.utilities.timeago.TimeAgo;
+
 import net.bcsoft.com.Reddet.DTO.PostRequest;
 import net.bcsoft.com.Reddet.DTO.PostResponse;
-import net.bcsoft.com.Reddet.model.Post;
-import net.bcsoft.com.Reddet.model.SubReddet;
-import net.bcsoft.com.Reddet.model.User;
-import net.bcsoft.com.Reddet.model.VoteType;
+import net.bcsoft.com.Reddet.model.*;
 import net.bcsoft.com.Reddet.repository.CommentRepository;
 import net.bcsoft.com.Reddet.repository.VoteRepository;
 import net.bcsoft.com.Reddet.service.AuthService;
@@ -14,7 +11,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Time;
+import java.util.Optional;
+
+import static net.bcsoft.com.Reddet.model.VoteType.DOWN_VOTE;
+import static net.bcsoft.com.Reddet.model.VoteType.UP_VOTE;
+
 
 @Mapper (componentModel = "spring")
 public abstract class PostMapper {
@@ -37,8 +38,8 @@ public abstract class PostMapper {
     @Mapping(target = "username", source ="user.username")
     //@Mapping(target = "commentCount", expression = "java(commentCount(post))")
     //@Mapping(target = "duration", expression = "java(getDuration(post))")
-    //@Mapping(target = "upVote", expression = "java(isPostUpVoted(post))")
-    //@Mapping(target = "downVote", expression = "java(isPostDownVoted(post))")
+    @Mapping(target = "upVote", expression = "java(isPostUpVoted(post))")
+    @Mapping(target = "downVote", expression = "java(isPostDownVoted(post))")
     public abstract PostResponse mapToDTO(Post post);
 
     //Integer commentCount(Post post){
@@ -48,16 +49,22 @@ public abstract class PostMapper {
     //String getDuration(Post post){
         //return TimeAgo.using(post.getCreationDate().toEpochMilli());
     //}
+    boolean isPostUpVoted(Post post){
+        return checkVoteType(post, UP_VOTE);
+    }
 
-    //boolean isPostUpVoted(Post post){
+    boolean isPostDownVoted(Post post){
+        return checkVoteType(post, DOWN_VOTE);
+    }
 
-    //}
-
-    //boolean isPostDownVoted(Post post){
-
-    //}
-
-    //private boolean checkVoteType(Post post, VoteType voteType){
-        //if
-    //}
+    private boolean checkVoteType(Post post, VoteType voteType){
+        if (authService.isLoggedIn()) {
+            Optional<Vote> voteForPostByUser =
+                    voteRepository.findTopByPostAndUserOrderByVoteIdDesc(post,
+                            authService.getCurrentUser());
+            return voteForPostByUser.filter(vote -> vote.getVoteType().equals(voteType))
+                    .isPresent();
+        }
+        return false;
+    }
 }

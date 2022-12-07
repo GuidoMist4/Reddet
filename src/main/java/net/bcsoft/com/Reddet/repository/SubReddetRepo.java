@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface SubReddetRepo extends JpaRepository<SubReddet,Long> {
-
+    Optional<SubReddet> findByName(String subReddetName);
 }
