@@ -1,6 +1,7 @@
 package net.bcsoft.com.Reddet.mapper;
 
 
+import com.github.marlonlom.utilities.timeago.TimeAgo;
 import net.bcsoft.com.Reddet.DTO.PostRequest;
 import net.bcsoft.com.Reddet.DTO.PostResponse;
 import net.bcsoft.com.Reddet.model.*;
@@ -36,19 +37,20 @@ public abstract class PostMapper {
     @Mapping(target = "id", source = "postId")
     @Mapping(target = "subReddetName", source = "subReddet.name")
     @Mapping(target = "username", source ="user.username")
-    //@Mapping(target = "commentCount", expression = "java(commentCount(post))")
-    //@Mapping(target = "duration", expression = "java(getDuration(post))")
+    @Mapping(target = "commentCount", expression = "java(commentCount(post))")
+    @Mapping(target = "duration", expression = "java(getDuration(post))")
     @Mapping(target = "upVote", expression = "java(isPostUpVoted(post))")
     @Mapping(target = "downVote", expression = "java(isPostDownVoted(post))")
     public abstract PostResponse mapToDTO(Post post);
 
-    //Integer commentCount(Post post){
-        //return commentRepository.findAllByPost(post).size();
-    //}
+    Integer commentCount(Post post){
+        return commentRepository.findAllByPost(post).size();
+    }
 
-    //String getDuration(Post post){
-        //return TimeAgo.using(post.getCreationDate().toEpochMilli());
-    //}
+    String getDuration(Post post){
+        return TimeAgo.using(post.getCreationDate().toEpochMilli());
+    }
+
     boolean isPostUpVoted(Post post){
         return checkVoteType(post, UP_VOTE);
     }

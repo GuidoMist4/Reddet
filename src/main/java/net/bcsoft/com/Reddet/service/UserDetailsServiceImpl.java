@@ -1,5 +1,6 @@
 package net.bcsoft.com.Reddet.service;
 
+import lombok.AllArgsConstructor;
 import net.bcsoft.com.Reddet.model.User;
 import net.bcsoft.com.Reddet.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,10 @@ import java.util.Optional;
 
 
 @Service
+@AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
     @Override
     @Transactional
