@@ -54,9 +54,9 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponse> getPostsBySubreddit(Long subredditId) {
-        SubReddet subReddet = subreddetRepository.findById(subredditId)
-                .orElseThrow(() -> new SubReddetNotFoundException(subredditId.toString()));
+    public List<PostResponse> getPostsBySubreddet(Long subreddetId) {
+        SubReddet subReddet = subreddetRepository.findById(subreddetId)
+                .orElseThrow(() -> new SubReddetNotFoundException(subreddetId.toString()));
         List<Post> posts = postRepository.findAllBySubReddet(subReddet);
         return posts.stream().map(postMapper::mapToDTO).collect(toList());
     }
