@@ -46,7 +46,7 @@ public class PostController {
     }
 
     //prende tutti i post di un utente specifico (passiamo id del user)
-    @GetMapping("by-user/{name}")
+    @GetMapping("by-user/{username}")
     public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
         return status(HttpStatus.OK).body(postService.getPostsByUsername(username));
     }
