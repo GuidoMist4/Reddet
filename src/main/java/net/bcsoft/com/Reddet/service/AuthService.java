@@ -1,7 +1,9 @@
 package net.bcsoft.com.Reddet.service;
 
 import com.nimbusds.jwt.JWT;
+import net.bcsoft.com.Reddet.DTO.AuthenticationResponse;
 import net.bcsoft.com.Reddet.DTO.LoginRequest;
+import net.bcsoft.com.Reddet.DTO.RefreshTokenRequest;
 import net.bcsoft.com.Reddet.DTO.RegisterRequest;
 import net.bcsoft.com.Reddet.exception.ExceptionHandler;
 import net.bcsoft.com.Reddet.model.NotificationEmail;
@@ -36,6 +38,12 @@ public class AuthService {
 
     @Autowired
     MailService mailService;
+
+    @Autowired
+    JWTProvider jwtProvider;
+
+    @Autowired
+    RefreshTokenService refreshTokenService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -88,6 +96,32 @@ public class AuthService {
                 new ExceptionHandler("ERROR: Username not found."));
         user.setEnabled(true);
         userRepo.save(user);
+    }
+
+    @Transactional
+    public AuthenticationResponse loginAuth(LoginRequest loginRequest) {
+        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generateToken(authenticate);
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(loginRequest.getUsername())
+                .build();
+    }
+
+    @Transactional
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtProvider.generateTokenWithUsername(refreshTokenRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
     }
 
     @Transactional
