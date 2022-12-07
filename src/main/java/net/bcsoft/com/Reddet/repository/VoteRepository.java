@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
     public interface  VoteRepository  extends CrudRepository<Vote, Long> {
-    Optional<Vote> findTopByPostAndUserOrderByVoteIdDesc(Post post, User currentUser);
+    Optional<Vote> findTopByPostAndUserOrderByIdVoteDesc(Post post, User currentUser);
     }
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import net.bcsoft.com.Reddet.DTO.PostRequest;
 import net.bcsoft.com.Reddet.DTO.PostResponse;
 import net.bcsoft.com.Reddet.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,12 @@ import java.util.List;
 import static org.springframework.http.ResponseEntity.status;
 
 @RestController
-@RequestMapping("/api/posts/")
-@AllArgsConstructor
+@RequestMapping("/Api/posts/")
+
 public class PostController {
 
-    private final PostService postService;
+    @Autowired
+    private PostService postService;
 
     //creazione post
     @PostMapping

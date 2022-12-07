@@ -7,7 +7,6 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
-import net.bcsoft.com.Reddet.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -33,15 +31,13 @@ import org.springframework.security.oauth2.server.resource.web.access.BearerToke
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
-@EnableWebSecurity
+@SuppressWarnings("deprecation")
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.public.key}")
     RSAPublicKey publicKey;
@@ -49,15 +45,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${jwt.private.key}")
     RSAPrivateKey privateKey;
 
+   // @Override
+   //  public void configure(HttpSecurity httpSecurity) throws Exception {
+   //    httpSecurity.csrf()
+   //       .disable()
+    //      .authorizeRequests()
+    //      .antMatchers("/Api/Auth/**")
+   //       .permitAll()
+   //       .anyRequest()
+   //       .authenticated();
+   //}
+
+
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/Api/Auth/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+        httpSecurity.cors().and()
+                .csrf().disable()
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/Api/Auth/**")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/Api/subreddit")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/Api/posts/")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/Api/posts/**")
+                        .permitAll()
+                        .antMatchers("/v2/api-docs",
+                                "/configuration/ui",
+                                "/swagger-resources/**",
+                                "/configuration/security",
+                                "/swagger-ui.html",
+                                "/webjars/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                );
     }
 
     @Bean
@@ -76,10 +103,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+
     @Bean
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
     }
+
 
     @Bean
     JwtEncoder jwtEncoder() {
