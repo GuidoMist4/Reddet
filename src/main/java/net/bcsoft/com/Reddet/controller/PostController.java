@@ -34,15 +34,15 @@ public class PostController {
     }
 
     //prende un post specifico (passiamo l'id)
-    @GetMapping("/{id}")
-    public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
-        return status(HttpStatus.OK).body(postService.getPost(id));
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponse> getPost(@PathVariable Long postId) {
+        return status(HttpStatus.OK).body(postService.getPost(postId));
     }
 
     //prende tutti i post per subreddet(tramite l'id del subreddet)
-    @GetMapping("by-subreddet/{id}")
-    public ResponseEntity<List<PostResponse>> getPostsBySubreddet(Long id) {
-        return status(HttpStatus.OK).body(postService.getPostsBySubreddet(id));
+    @GetMapping("by-subreddet/{subId}")
+    public ResponseEntity<List<PostResponse>> getPostsBySubreddet(Long subId) {
+        return status(HttpStatus.OK).body(postService.getPostsBySubreddet(subId));
     }
 
     //prende tutti i post di un utente specifico (passiamo id del user)
