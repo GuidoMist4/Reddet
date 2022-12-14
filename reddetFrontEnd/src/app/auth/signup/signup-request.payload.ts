@@ -1,1 +1,5 @@
-export interface SignupRequestPayload{username:string;password:string;email:string}
+export interface SignupRequestPayload {
+  username: string;
+  password: string;
+  email: string
+}

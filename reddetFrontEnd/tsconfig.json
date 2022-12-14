@@ -5,12 +5,8 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
-<<<<<<< Updated upstream
-    "strict": true,
-=======
     "strict": false,
     "strictPropertyInitialization": false,
->>>>>>> Stashed changes
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
