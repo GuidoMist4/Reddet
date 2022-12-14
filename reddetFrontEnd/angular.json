@@ -25,7 +25,12 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< Updated upstream
               "src/styles.css"
+=======
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+>>>>>>> Stashed changes
             ],
             "scripts": []
           },
@@ -94,5 +99,11 @@
         }
       }
     }
+<<<<<<< Updated upstream
+=======
+  },
+  "cli": {
+    "analytics": false
+>>>>>>> Stashed changes
   }
 }
